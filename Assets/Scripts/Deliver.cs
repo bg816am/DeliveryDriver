@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Deliver : MonoBehaviour
 {
+
+  [SerializeField] float packageDelay = 1f;
   bool hasPackage = false;
   private void OnCollisionEnter2D(Collision2D other) 
   {
@@ -14,6 +16,7 @@ public class Deliver : MonoBehaviour
       {
         Debug.Log("Package Picked");
         hasPackage = true;
+        Destroy(other.gameObject, packageDelay);
       }
       if (other.tag == "Customer" && hasPackage)
       {
