@@ -4,24 +4,37 @@ public class Deliver : MonoBehaviour
 {
 
   [SerializeField] float packageDelay = 1f;
+  [SerializeField] Color32 hasPackageColor = new Color32(1, 1, 1, 1);
+  [SerializeField] Color32 noPackageColor = new Color32(1, 1, 1, 1);
+
+
+// Create variable to grab SpriteRenderer
+  SpriteRenderer spriteRenderer;
   bool hasPackage = false;
-  private void OnCollisionEnter2D(Collision2D other) 
+
+  void Start() 
   {
-      Debug.Log("Oops!");
+    // variable is now assigned to the SpriteRenderer
+    spriteRenderer = GetComponent<SpriteRenderer>();
+  }
+  void OnCollisionEnter2D(Collision2D other) 
+  {
+      
   }
 
-  private void OnTriggerEnter2D(Collider2D other) 
+  void OnTriggerEnter2D(Collider2D other) 
   {
-      if (other.tag == "Package")
+      if (other.tag == "Package" && !hasPackage)
       {
-        Debug.Log("Package Picked");
         hasPackage = true;
+        spriteRenderer.color = hasPackageColor;
         Destroy(other.gameObject, packageDelay);
+        
       }
       if (other.tag == "Customer" && hasPackage)
       {
-        Debug.Log("Package Delivered");
         hasPackage = false;
+        spriteRenderer.color = noPackageColor;
         
       }
   }
